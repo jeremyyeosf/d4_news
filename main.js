@@ -35,7 +35,7 @@ app.get('/search', async (req, res) => {
         pageSize: 5
     })
     const result = await fetch(url)
-    console.log('First promise result:', result)
+    //console.log('First promise result:', result)
     const news = await result.json()
     console.log('Second promise result:', news)
     const news_articles = news.articles
