@@ -1,0 +1,65 @@
+<h1>News Search</h1>
+
+<form method="GET" action="/search">
+    <div class="form-group">
+        <label for="inputSearch"></label>
+        <input type="search" name="inputSearch" id="inputSearch " class="form-control" placeholder="Enter search term here">
+        <!-- input type text/search? -->
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="us">
+                <label for="searchCountry1"><img src="/flags/us.png" alt=""></label>
+            </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="gb">
+                <label for="searchCountry2"><img src="/flags/uk.png" alt=""></label>
+            </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="fr">
+                <label for="searchCountry3"><img src="/flags/fr.png" alt=""></label>
+            </div>
+            </div>
+            <div class="w-100"></div>
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="sg">
+                <label for="searchCountry4"><img src="/flags/sg.png" alt=""></label>
+            </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="jp">
+                <label for="searchCountry5"><img src="/flags/jp.png" alt=""></label>
+            </div>
+            </div>
+            <div class="col">
+                <div class="form-check">
+                <input type="radio" name="searchCountry" id="searchCountry" class="form-check-input" value="cn">
+                <label for="searchCountry6"><img src="/flags/cn.png" alt=""></label>
+            </div>
+            </div>
+        </div>
+    </div>    
+    
+    <select name="searchCategory" id="" class="custom-select">
+        <option value="business">Business</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="general">General</option>
+        <option value="health">Health</option>
+        <option value="science">Science</option>
+        <option value="sports">Sports</option>
+        <option value="technology">Technology</option>
+    </select>
+    <button type="submit" class="btn btn-primary">Search</button>
+
+</form>
+
+
