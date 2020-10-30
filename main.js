@@ -1,3 +1,4 @@
+const { response } = require('express')
 const express = require('express')
 const handlebars = require('express-handlebars')
 const fetch = require('node-fetch')
@@ -5,8 +6,9 @@ const withQuery = require('with-query').default
 const PORT = parseInt(process.argv[2]) || parseInt(process.env.PORT) || 3000
 const API_KEY = process.env.API_KEY || "1bd572f98198417e92b53bf53f861733"
 const NEWS_URL = 'https://newsapi.org/v2/top-headlines'
-// ?country=us&apiKey=1bd572f98198417e92b53bf53f861733
+
 const app = express()
+const cache = {}
 
 app.engine('hbs', 
     handlebars({defaultLayout: 'default.hbs'})
@@ -24,6 +26,14 @@ app.get('/search', async (req, res) => {
     const search = req.query['inputSearch']
     const searchCountry = req.query['searchCountry']
     const searchCategory = req.query['searchCategory']
+    const cacheKey = `${q}-${searchCountry}-${searchCategory}`
+    // found in cache
+    if (cacheKey in cache) {
+        const result = cache[cacheKey]
+        res.render('news', { news_articles })
+        return 
+    }
+
     console.log('Search query: ', search)
     console.log('Search country: ', searchCountry)
     console.log('Search category: ', searchCategory)
@@ -43,6 +53,7 @@ app.get('/search', async (req, res) => {
             return {title: d.title, imageUrl: d.urlToImage, summary: d.description, publishedAt: d.publishedAt, articleUrl: d.url}
         })
     
+    cache[cacheKey] = news_articles
     console.log('Total number of results: ', news.totalResults)
     res.status(200)
     res.type('text/html')
