@@ -1,27 +1,32 @@
-{{#each news_articles}}
-    <div>
-        <h1>{{ this.title }}</h1>
-    </div>
+{{#if hasContent}}
 
-    {{#if this.imageUrl}}
+    {{#each news_articles}}
         <div>
-            <img src="{{ this.imageUrl }}" alt="">
+            <h1>{{ this.title }}</h1>
         </div>
-    {{else}}
-        <h3>This article has no image.</h3>
-    {{/if}}
 
-    <div>
-        {{ this.summary }}
-    </div>
+        {{#if this.imageUrl}}
+            <div>
+                <img src="{{ this.imageUrl }}" alt="">
+            </div>
+        {{else}}
+            <h3>This article has no image.</h3>
+        {{/if}}
 
-    <div>
-        {{ this.publishedAt }}
-    </div>
+        <div>
+            {{ this.summary }}
+        </div>
 
-    <div>
-        <a href="{{ this.articleUrl }}">Read</a>
-    </div>
+        <div>
+            {{ this.publishedAt }}
+        </div>
+
+        <div>
+            <a href="{{ this.articleUrl }}">Read</a>
+        </div>
 
 
-{{/each}}
+    {{/each}}
+{{else}}
+    <h1>Search returned no results</h1>
+{{/if}} 

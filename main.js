@@ -35,18 +35,20 @@ app.get('/search', async (req, res) => {
         pageSize: 5
     })
     const result = await fetch(url)
+    console.log('First promise result:', result)
     const news = await result.json()
+    console.log('Second promise result:', news)
     const news_articles = news.articles
         .map(d => {
             return {title: d.title, imageUrl: d.urlToImage, summary: d.description, publishedAt: d.publishedAt, articleUrl: d.url}
         })
     
-    console.info(news)
+    console.log('Total number of results: ', news.totalResults)
     res.status(200)
     res.type('text/html')
     res.render('news', {
         news_articles
-        //,hasContent: news_articles.urlToImage
+        ,hasContent: news.totalResults > 0
     })
     
 })
