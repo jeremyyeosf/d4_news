@@ -26,17 +26,26 @@ app.get('/search', async (req, res) => {
     const search = req.query['inputSearch']
     const searchCountry = req.query['searchCountry']
     const searchCategory = req.query['searchCategory']
-    const cacheKey = `${q}-${searchCountry}-${searchCategory}`
+    const cacheKey = `${search}-${searchCountry}-${searchCategory}`
+    // console.log('1cacheKey: ', cacheKey)
+    // console.log('1cache.cacheKey: ', cache.cacheKey)
     // found in cache
-    if (cacheKey in cache) {
-        const result = cache[cacheKey]
-        res.render('news', { news_articles })
+    if (cacheKey === cache.cacheKey) {
+        const news_articles = cache.cacheContent
+        // console.log('used cache: ', new Date())
+
+        res.status(200)
+        res.type('text/html')
+        res.render('news', {
+        news_articles
+        ,hasContent: cache.totalResults > 0
+    })
         return 
     }
 
-    console.log('Search query: ', search)
-    console.log('Search country: ', searchCountry)
-    console.log('Search category: ', searchCategory)
+    // console.log('Search query: ', search)
+    // console.log('Search country: ', searchCountry)
+    // console.log('Search category: ', searchCategory)
     const url = withQuery(NEWS_URL, {
         q: search,
         country: searchCountry,
@@ -47,14 +56,19 @@ app.get('/search', async (req, res) => {
     const result = await fetch(url)
     //console.log('First promise result:', result)
     const news = await result.json()
-    console.log('Second promise result:', news)
+    // console.log('Second promise result:', news)
     const news_articles = news.articles
         .map(d => {
             return {title: d.title, imageUrl: d.urlToImage, summary: d.description, publishedAt: d.publishedAt, articleUrl: d.url}
         })
     
-    cache[cacheKey] = news_articles
-    console.log('Total number of results: ', news.totalResults)
+    cache.cacheContent = news_articles
+    cache.cacheKey = cacheKey
+    cache.totalResults = news.totalResults
+    // console.log('Total number of results: ', news.totalResults)
+    // console.log('cacheKey: ', cacheKey)
+    // console.log('cache.cacheKey: ', cache.cacheKey)
+    // console.log('no cache: ', new Date())
     res.status(200)
     res.type('text/html')
     res.render('news', {
